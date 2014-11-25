@@ -1,0 +1,28 @@
+model{
+
+	bprior      ~ dnorm(0,1/2000) # sampling from prior distribution
+	b           ~ dnorm(0,1/2000) # prior over decision bias
+	intvariance ~ dunif(0,1000)   # prior over internal variance
+	lr          ~ dbeta(1,1)      # uniform prior over lapse rate
+
+	for (s in 1:length(si)){
+		for (t in 1:T){
+			
+			L[s,t] ~ dcat(pdist)  # prior over signal location
+
+			# location 1
+			tempMu[s,1,t] <- ifelse(1==L[s,t],si[s],0)
+			x[s,1,t] ~ dnorm(tempMu[s,1,t] , 1/intvariance)
+
+			# location 2
+			tempMu[s,2,t] <- ifelse(2==L[s,t],si[s],0)
+			x[s,2,t] ~ dnorm(tempMu[s,2,t] , 1/intvariance)
+
+			m[s,1,t] <- ifelse(x[s,1,t]-x[s,2,t] > b, 1-(lr/2), (lr/2))
+			m[s,2,t] <- ifelse(x[s,1,t]-x[s,2,t] > b, (lr/2), 1-(lr/2))
+			
+			R[s,t] ~ dcat(m[s,,t])
+			postpredR[s,t] ~ dcat(m[s,,t])
+		}
+	}
+}

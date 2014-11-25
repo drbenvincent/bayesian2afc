@@ -1,0 +1,9 @@
+model{
+	intvariance ~ dunif(0,1000)
+	for (c in 1:length(si)) {	
+		pc[c] <- phi( (si[c])/( sqrt(2*intvariance) ) )
+		k[c] ~ dbin(pc[c],T)
+		predk[c] ~ dbin(pc[c],T)
+		#residual[c] <- k[c] - predk[c]
+	}
+}
