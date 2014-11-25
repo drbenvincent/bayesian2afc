@@ -6,7 +6,7 @@ function [samples,stats] = model3infer(knowns, mcmcparams)
 
 try
     % remove fields for which we want to make inferences
-	knowns = rmfield(knowns,'intvariance');
+	knowns = rmfield(knowns,'v');
     knowns = rmfield(knowns,'lr');
     knowns = rmfield(knowns,'b');
 catch
@@ -16,7 +16,7 @@ end
 % Set initial values for latent variable in each chain
 clear initial_param
 for i=1:mcmcparams.infer.nchains
-    initial_param(i).intvariance= 0.01+rand*10;
+    initial_param(i).v= 0.01+rand*10;
     %if inferlapserateFLAG==1
         initial_param(i).lr		= rand;
     %end
@@ -37,7 +37,7 @@ tic
     'nburnin', mcmcparams.infer.nburnin,...             
     'nsamples', mcmcparams.infer.nsamples, ...           
     'thin', 1, ...                      
-    'monitorparams', {'intvariance','lr', 'b', 'postpredR','bprior'}, ...  
+    'monitorparams', {'v','lr', 'b', 'postpredR','bprior'}, ...  
     'savejagsoutput' , 1 , ... 
     'verbosity' , 1 , ... 
     'cleanup' , 1 ,...

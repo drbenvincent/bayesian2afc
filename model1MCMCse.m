@@ -158,6 +158,6 @@ mcmcparams.infer.nchains = numel(starting_var);
 
 %%
 % Calculate mode (the MAP estimate) by kernel density estimation
-mcmc_estimated_mode = mode_of_samples_1D(samples.intvariance(:), 'positive');
+mcmc_estimated_mode = mode_of_samples_1D(samples.v(:), 'positive');
 
 end

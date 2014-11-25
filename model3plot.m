@@ -94,7 +94,7 @@ area(varianceGridVals,posterior_var,...
 	'FaceColor', [0.7 0.7 0.7], ...
 	'LineStyle','none')
 axis tight
-hline([],params.intvariance)
+hline([],params.v)
 % plot 95% HDI
 hold on, a=axis; top =a(4); z=0.03;
 plot([HDI.lower HDI.upper],[top*z top*z],'k-');

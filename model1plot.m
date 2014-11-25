@@ -19,7 +19,7 @@ switch PARAM_RECOVERY_METHOD
         
         % plot MCMC chains
         % Visually inspect chains and examine the $\hat{R}$ statistic.
-        MCMCdiagnoticsPlot(samples,stats,{'intvariance'})
+        MCMCdiagnoticsPlot(samples,stats,{'v'})
         temp=cd;
         try
             latex_fig(12,6,3)
@@ -60,7 +60,7 @@ switch PARAM_RECOVERY_METHOD
 end
 
 axis tight
-hline([],params.intvariance)
+hline([],params.v)
 
 % format graph
 xlabel('inferred \sigma^2')

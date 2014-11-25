@@ -1,4 +1,4 @@
-function [predictions] = model3modelfit(predictions, T, pc, k, free_params)
+function [predictions] = model2modelfit(predictions, T, pc, k, free_params)
 
 % % ******* THIS IS IMPORTANT *******
 % % Choice of samples.R and samples.postpredR is important here

@@ -22,8 +22,8 @@ end
 clear, clc, %close all, drawnow
 params.T			= 100;                  % trials per signal level
 params.sioriginal	= logspace(-2,1,10);    % define the signal intensities
-params.extvariance	= 0;                    % external noise variance
-params.intvariance	= 1;                    % internal noise variance
+%params.extvariance	= 0;                    % external noise variance
+params.v			= 1;                    % internal noise variance
 params.lr			= 0.01;                         % true lapse rate
 params.b			= 0;
 params.pdist		= [0.5 0.5];

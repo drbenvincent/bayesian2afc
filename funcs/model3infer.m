@@ -2,7 +2,7 @@
 % Use MCMC to infer the posterior distribution $P(L|parameters)$
 %%
 
-function [samples,stats, PC, PCI, R, k] = model2infer(params, mcmcparams)
+function [samples,stats, PC, PCI, R, k] = model3infer(params, mcmcparams)
 
 %% Preliminaries
 N=2; % DO NOT CHANGE

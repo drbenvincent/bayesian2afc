@@ -9,7 +9,7 @@ function exptparams = define_experiment_params(model)
 exptparams.T            = 100;
 exptparams.sioriginal	= logspace(-2,2,10);
 exptparams.muN          = 0;
-exptparams.intvariance  = 1;
+exptparams.v  = 1;
 
 % in order to conduct model prediction on si values that we do not have
 % response data for, we will actually generate simulated data for all these

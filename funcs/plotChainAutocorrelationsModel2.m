@@ -1,6 +1,6 @@
 function plotChainAutocorrelationsModel2(samples)
 
-nChains = size(samples.intvariance,1);
+nChains = size(samples.v,1);
 
 cols = nChains;	% chains
 rows = 3;	% variables
@@ -9,7 +9,7 @@ count= 1;
 fig=4;
 
 figure(fig), clf
-plot_autocorr_for_all_chains(samples.intvariance)
+plot_autocorr_for_all_chains(samples.v)
 plot_autocorr_for_all_chains(samples.lr)
 plot_autocorr_for_all_chains(samples.b)
 

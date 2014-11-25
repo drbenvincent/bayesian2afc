@@ -4,7 +4,7 @@
 % $P(L,x|params)$
 %%
 
-function [params] = model2generate(params, mcmcparams)
+function [params] = model3generate(params, mcmcparams)
 
 
 %% Pleliminaries

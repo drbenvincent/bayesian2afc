@@ -1,10 +1,10 @@
 model{
-	varint ~ dunif(0,1000)
+	v ~ dunif(0,1000)
 	for (c in 1:length(si)){
 		for (t in 1:T){
 			L[c,t] ~ dcat(pdist)
 			for (n in 1:2){	
-				x[c,n,t] ~ dnorm( ifelse(n==L[c,t],si[c],0) , 1/varint)
+				x[c,n,t] ~ dnorm( ifelse(n==L[c,t],si[c],0) , 1/v)
 	  		}
 		}
 	}

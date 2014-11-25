@@ -36,7 +36,7 @@ switch DATASET_MODE
         % GENERATE SIMULATED DATA
 		% Sample from the distribution P(k|T,si,variance)
         params.k = model1posteriorPrediction(params.T, params.sioriginal,...
-            params.intvariance);
+            params.v);
 end
 
 %% STEP 2: Parameter Recovery via GRID APPROXIMATION
@@ -80,7 +80,7 @@ switch PARAM_RECOVERY_METHOD
 		
 % 		% plot MCMC chains
 % 		% Visually inspect chains and examine the $\hat{R}$ statistic.
-% 		MCMCdiagnoticsPlot(samples,stats,{'intvariance'})
+% 		MCMCdiagnoticsPlot(samples,stats,{'v'})
 % 		temp=cd;
 % 		try
 % 			latex_fig(12,6,3)
@@ -117,8 +117,8 @@ switch PARAM_RECOVERY_METHOD
 			MAP, Y(1), Y(2))
 		
 	case{'mcmcJAGS'}
-		[MAP, xi, p, CI95] = mode_of_samples_1D(samples.intvariance(:), 'positive');
-		Y = prctile(samples.intvariance(:),[5 95]); % Calcaulte 95% CI
+		[MAP, xi, p, CI95] = mode_of_samples_1D(samples.v(:), 'positive');
+		Y = prctile(samples.v(:),[5 95]); % Calcaulte 95% CI
 		fprintf('paramater estimation of sigma^2 (VARIANCE): mode=%2.3f (%2.3f - %2.3f)\n',...
 			MAP, Y(1), Y(2))
 
@@ -171,7 +171,7 @@ cd(st)
 % end
 % 
 % axis tight
-% hline([],params.intvariance)
+% hline([],params.v)
 % 
 % % format graph
 % xlabel('inferred \sigma^2')

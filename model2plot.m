@@ -18,7 +18,7 @@ end
 
 %% Plot MCMC chains
 figure(1), clf
-MCMCdiagnoticsPlot(samples,stats,{'intvariance','lr','b'})
+MCMCdiagnoticsPlot(samples,stats,{'v','lr','b'})
 
 temp=cd;
 try
@@ -142,7 +142,7 @@ set(gca,'PlotBoxAspectRatio',[1 1 1])
 % 
 % % Covert MCMC samples into a kernel density estimate and extract summary
 % % stats
-% [MAP, xi, p, CI95] = mode_of_samples_1D(samples.intvariance(:), 'positive');
+% [MAP, xi, p, CI95] = mode_of_samples_1D(samples.v(:), 'positive');
 % 
 % % plot posterior distribution
 % % plot(xi,p,'k-')
@@ -153,7 +153,7 @@ set(gca,'PlotBoxAspectRatio',[1 1 1])
 % axis tight
 % xlim([0 3])
 % title('\sigma^2')
-% hline([],params.intvariance) % PLOT TRUE VALUE
+% hline([],params.v) % PLOT TRUE VALUE
 % % remove y-axis
 % box off
 % set(gca,'YTick',[],...
@@ -247,9 +247,9 @@ temp=cd;
 try
 	cd('figs')
 	figure(5)
-	myDensityMatrix(samples.intvariance(:),samples.lr(:),samples.b(:),...
+	myDensityMatrix(samples.v(:),samples.lr(:),samples.b(:),...
 		{'\sigma^2','\lambda','b'},...
-		[params.intvariance, params.lr, params.b],...
+		[params.v, params.lr, params.b],...
 		{'positive','positive',[-100 100]})
 	
 	figure(5), hgsave('model2paramMatrix')

@@ -59,7 +59,7 @@ mcmcparams.infer.nsamples=1000;
 
 %% JAGS seems to cut off the initial parameters
 % So to demonstrate the point, we'll add them back on
-chains = samples.intvariance(:,[1:200])';
+chains = samples.v(:,[1:200])';
 chains =[starting_var ; chains];
 
 %% plot MCMC chains
