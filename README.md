@@ -1,4 +1,4 @@
-# A Introductory Tutorial On Bayesian Modelling For Perception Researchers
+# A tutorial on Bayesian models of perception
 
 **PLEASE RESPECT THAT THIS IS PRE-RELEASE CODE, ASSOCIATED WITH A PAPER THAT IS UNDER REVIEW. Citation details and a link to the paper will be provided if the manuscript is accepted for publication**
 
@@ -7,7 +7,7 @@
 ## About this respository
 This repository contains Matlab files that produced many of the figures in my paper:
 
-- Vincent, B. T. (submitted) A introductory tutorial on Bayesian modelling for perception researchers. [LINK TO PUBLISHER'S SITE HERE]()
+- Vincent, B. T. (submitted) A tutorial on Bayesian models of perception. [LINK TO PUBLISHER'S SITE HERE]()
 
 The paper and other Supplementary Material is available here: [PROVIDE URL HERE]()
 
