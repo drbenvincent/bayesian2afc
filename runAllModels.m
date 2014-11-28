@@ -30,11 +30,13 @@ model3runme				% parameter estimation + model prediction
 model3psychometric('calculate')
 model3psychometric('plot')
 
+
+
 %% plotting
-model1plot('tempModel1run_gridApprox')
-model1plot('tempModel1run_mcmcCustom')
-model1plot('tempModel1run_mcmcJAGS')
-
-model2plot
-
-model3plot
+% model1plot('tempModel1run_gridApprox')
+% model1plot('tempModel1run_mcmcCustom')
+% model1plot('tempModel1run_mcmcJAGS')
+% 
+% model2plot
+% 
+% model3plot
