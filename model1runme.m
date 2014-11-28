@@ -105,19 +105,17 @@ end
 
 
 %% SAVE
-st=cd;
-cd('~/Dropbox/tempModelOutputs')
 switch PARAM_RECOVERY_METHOD
 	case{'gridApprox'}
-		save tempModel1run_gridApprox.mat -v7.3
+		save(['~/Dropbox/tempModelOutputs/tempModel1run_gridApprox.mat'], '-v7.3')
 		
 	case{'mcmcCustom'}
-		save tempModel1run_mcmcCustom.mat -v7.3
+		save(['~/Dropbox/tempModelOutputs/tempModel1run_mcmcCustom.mat'], '-v7.3')
 		
 	case{'mcmcJAGS'}
-		save tempModel1run_mcmcJAGS.mat -v7.3
+		save(['~/Dropbox/tempModelOutputs/tempModel1run_mcmcJAGS.mat'], '-v7.3')
 end
-cd(st)
+
 
 return
 

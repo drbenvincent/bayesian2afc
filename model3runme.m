@@ -166,10 +166,5 @@ CI = prctile(predk,[5 95]) ./ params.T;
 
 
 
-% EXPORT -------------------------
-st=cd;
-cd('~/Dropbox/tempModelOutputs')
-save tempModel3run.mat -v7.3
-cd(st)
-% --------------------------------
-
+%% EXPORT
+save(['~/Dropbox/tempModelOutputs/tempModel3run.mat'], '-v7.3')

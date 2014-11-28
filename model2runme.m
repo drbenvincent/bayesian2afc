@@ -41,10 +41,7 @@ display('starting model predictions')
 
 
 %% SAVE
-st=cd;
-cd('~/Dropbox/tempModelOutputs')
-save tempModel2run.mat -v7.3
-cd(st)
+save(['~/Dropbox/tempModelOutputs/tempModel2run.mat'], '-v7.3')
 
 
 %% RUN MODEL 2 FIGURE GENERATION AND EXPORTING CODE
