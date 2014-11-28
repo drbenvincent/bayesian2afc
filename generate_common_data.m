@@ -63,7 +63,7 @@ params.si = [params.sioriginal params.sioriginal params.sii];
 
 %% Export for Model 2
 params.koriginal = params.k;
-save('commondata_model2.mat', 'params')
+save('data/commondata_model2.mat', 'params')
 
 
 %% Export for Model 3
@@ -85,13 +85,13 @@ params.koriginal = params.k;
 params.k(:,[numel(params.k)+1:numel(params.si)]) = NaN;
 %params.pc(:,[numel(params.sioriginal)+1:numel(params.si)]) = NaN;
 
-save('commondata_model3.mat', 'params')
+save('data/commondata_model3.mat', 'params')
 
 %% Export for Model 1
 %params.k=params.koriginal;
 %params = rmfield(params,'koriginal');
 
-save('commondata_model1.mat', 'params')
+save('data/commondata_model1.mat', 'params')
 
 %%
 fprintf('Generated and saved common data\n')

@@ -21,7 +21,7 @@ switch DATAMODE
 	case{'load'}
 		% Load file containing experiment parameters, and a pre-computed
 		% dataset of locations (L) and responses (R).
-		load('commondata_model2.mat')
+		load('data/commondata_model2.mat')
 		% Define MCMC parameters
 		mcmcparams = define_mcmcparams('model2',params.T);
 		

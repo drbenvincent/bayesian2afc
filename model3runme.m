@@ -35,7 +35,7 @@ switch DATAMODE
 	case{'load'}
 		% Load file containing experiment parameters, and a pre-computed
 		% dataset of locations (L) and responses (R).
-		load('commondata_model3.mat')
+		load('data/commondata_model3.mat')
 
 end
 

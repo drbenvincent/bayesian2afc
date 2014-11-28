@@ -1,3 +1,6 @@
+addpath([cd '/funcs'])
+
+
 
 %% MODEL 1
 model1runme('gridApprox')

@@ -1,11 +1,3 @@
-%% model1runme.m
-%
-% Future updates or big fixes will appear at: 
-% <http://www.inferenceLab.com www.inferenceLab.com>
-% and/or
-% <https://github.com/drbenvincent/bayesian2afc>
-%%
-
 function model1runme(PARAM_RECOVERY_METHOD)
 % model1runme('gridApprox')
 % model1runme('mcmcCustom')
@@ -27,7 +19,7 @@ PARAM_RECOVERY_METHOD
 %% STEP 1: SIMULATE DATASET. Either load or create a new dataset
 switch DATASET_MODE
     case{'load'}
-        load('commondata_model1.mat')
+        load('data/commondata_model1.mat')
         
     case{'generate'}
         % define known variables
