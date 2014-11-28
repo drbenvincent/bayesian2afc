@@ -3,9 +3,7 @@ function model1runme(PARAM_RECOVERY_METHOD)
 % model1runme('mcmcCustom')
 % model1runme('mcmcJAGS')
 
-% Initial setting up
 setup
-
 
 DATASET_MODE='load'  % {'load','generate'}
 PARAM_RECOVERY_METHOD
@@ -34,7 +32,7 @@ end
 switch PARAM_RECOVERY_METHOD
 	case{'gridApprox'}
 		% 1. Define estimation options
-		estOpts.V =linspace(10^-2, 3, 10^4)'; % range of variance values
+		estOpts.V = linspace(10^-2, 3, 10^4)'; % range of variance values
 		
 		% 2. Conduct the inference
 		[posterior_var,vMode,HDI] = m1GridApprox(estOpts,params);
@@ -53,7 +51,6 @@ switch PARAM_RECOVERY_METHOD
 		% Calc summary stats
 		[MAP, xi, p, CI95] = sampleStats(samples, 'positive');
 	
-		
 	case{'mcmcJAGS'}
 
 		% 1. Define estimation options
@@ -79,20 +76,19 @@ switch PARAM_RECOVERY_METHOD
 	case{'gridApprox'}
 		% Sample from the posterior. * REQUIRES STATISTICS TOOLBOX *
 		nsamples=10^5;
-		fprintf('\nDrawing %d samples from the posterior distribution of internal variance...',...
-			nsamples)
+		
+		% Drawing MANY samples from the posterior distribution of internal
+		% variance
 		var_samples = randsample(estOpts.V, nsamples, true, posterior_var);
-		fprintf('done\n')
-		fprintf('Calculating model predictions in data space for sii...')
+		
 		% predictive distribution
 		predk=zeros(nsamples,numel(params.sii)); % preallocate
 		for n=1:nsamples
 			predk(n,:) = model1posteriorPrediction(params.T, params.sii, var_samples(n));
 		end
-		fprintf('done\n')
+
 		% Calculate 95% CI's for each signal level
 		CI = prctile(predk,[5 95]) ./ params.T;
-		%clear predk
 		
 	case{'mcmcCustom'}
 		predk=zeros(estOpts.n_samples,numel(params.sii)); % preallocate
@@ -104,20 +100,16 @@ switch PARAM_RECOVERY_METHOD
 		
 		% Generation of the predictive posterior values of K was already
 		% done in Step 2.
-		
-		si = params.sioriginal;
-		sii = params.sii;
-		T = params.T;
-		
+		%
 		% JAGS is providing samples of predicted number of correct trials out of T.
 		% Concatenate all the samples from different MCMC chains into one long list
 		% of MCMC samples
 		predk = reshape( samples.predk ,...
 			mcmcparams.infer.nchains*mcmcparams.infer.nsamples,...
-			numel([si sii]));
+			numel([params.sioriginal params.sii]));
 		
-		predk = predk(:,numel(si)+1:end);
-		
+		predk = predk(:,numel(params.sioriginal)+1:end);
+
 end
 
 
