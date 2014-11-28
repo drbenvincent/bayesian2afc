@@ -1,6 +1,8 @@
 addpath([cd '/funcs'])
-
-
+addpath([cd '/funcs/export_fig'])
+addpath([cd '/funcs/ColorBand'])
+addpath([cd '/funcs/latex_fig'])
+plot_formatting_setup
 
 %% MODEL 1
 model1runme('gridApprox')

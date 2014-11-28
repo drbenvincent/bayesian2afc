@@ -4,14 +4,18 @@ function model1plot(filename)
 % model1plot('tempModel1run_mcmcCustom')
 % model1plot('tempModel1run_mcmcJAGS')
 
-temp=cd;
-try
-	cd('~/Dropbox/tempModelOutputs')
-	load(filename)
-	cd(temp)
-catch
-	
-end
+plot_formatting_setup
+
+load(['~/Dropbox/tempModelOutputs/' filename])
+
+% temp=cd;
+% try
+% 	cd('~/Dropbox/tempModelOutputs')
+% 	load(filename)
+% 	cd(temp)
+% catch
+% 	
+% end
 
 
 switch PARAM_RECOVERY_METHOD

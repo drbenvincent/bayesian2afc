@@ -3,13 +3,12 @@ function exptparams = define_experiment_params(model)
 % exptparams = define_experiment_params('model1')
 % exptparams = define_experiment_params('model2')
 % exptparams = define_experiment_params('model3')
-% exptparams = define_experiment_params('model4')
 
 % common parameters
 exptparams.T            = 100;
 exptparams.sioriginal	= logspace(-2,2,10);
 exptparams.muN          = 0;
-exptparams.v  = 1;
+exptparams.v			= 1;
 
 % in order to conduct model prediction on si values that we do not have
 % response data for, we will actually generate simulated data for all these
@@ -28,10 +27,9 @@ switch model
         exptparams.si		= [exptparams.sioriginal exptparams.sii];
 		
 	case{'model2'}
-		% additional parameters for model 3
-		exptparams.lr		= 0.01;                 % true lapse rate
-		exptparams.b		= 0;
-		exptparams.pdist	= [0.5 0.5];
+		exptparams.lr		= 0.01; 	% true lapse rate
+		exptparams.b		= 0;		% true bias
+		exptparams.pdist	= [0.5 0.5];% trie spatial prior
 		exptparams.si		= [exptparams.sioriginal exptparams.sioriginal exptparams.sii];
 		
 	case{'model3'}

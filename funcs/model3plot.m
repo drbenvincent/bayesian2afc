@@ -1,14 +1,15 @@
 function model3plot
+plot_formatting_setup
 
-
-temp=cd;
-try
-	cd('~/Dropbox/tempModelOutputs')
-	load tempModel3run.mat
-	cd(temp)
-catch
-	
-end
+load('~/Dropbox/tempModelOutputs/tempModel3run.mat')
+% temp=cd;
+% try
+% 	cd('~/Dropbox/tempModelOutputs')
+% 	load tempModel3run.mat
+% 	cd(temp)
+% catch
+% 	
+% end
 
 
 

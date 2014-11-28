@@ -1,8 +1,8 @@
 function mcmcparams = define_mcmcparams(model,varargin)
 %
-% mcmcparams = define_mcmcparams('model2')
+% mcmcparams = define_mcmcparams('model1')
 % mcmcparams = define_mcmcparams('model3')
-% mcmcparams = define_mcmcparams('model4',T)
+% mcmcparams = define_mcmcparams('model2',T)
 
 
 % Parallel use of multiple CPU cores
@@ -83,7 +83,7 @@ switch model
 		% TOTAL SAMPLES:
 		% 10^6 takes ~4-5 hours ??
 		% 10^5 takes ~25 mins on my quadcore iMac
-        total_samples    = 10^5;                % 10^5 in paper
+        total_samples    = 10^4;                % 10^5 in paper
         mcmcparams.infer.nsamples = round(total_samples/mcmcparams.infer.nchains);        
 end
 

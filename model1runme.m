@@ -8,6 +8,8 @@ close all; clc
 addpath([cd '/funcs'])
 addpath([cd '/funcs/export_fig'])
 addpath([cd '/funcs/ColorBand'])
+addpath([cd '/funcs/latex_fig'])
+
 plot_formatting_setup
 
 figure(1),clf
@@ -37,7 +39,7 @@ end
 switch PARAM_RECOVERY_METHOD
 	case{'gridApprox'}
 		V=linspace(10^-2, 3, 10^4)'; % range of variance values
-		likelihood=zeros(size(V)); % preallocate
+		posterior_var=zeros(size(V)); % preallocate
 		fprintf('Running parameter recovery via grid approximation...')
 		for n=1:numel(V) % Do the grid approximation
 			posterior_var(n) = model1jointPosterior(V(n), params.sioriginal, params.koriginal, params.T);
