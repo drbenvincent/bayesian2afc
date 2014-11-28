@@ -1,10 +1,10 @@
-%% mode_of_samples_1D.m
+%% sampleStats.m
 % This function calcalates the mode of a set of MCMC samples, and it does
 % it by calcualing a kernel density function using the Matlab |ksdensity|
 % function. 
 %%
 
-function [estimated_mode, XI, p, ci95] = mode_of_samples_1D(samples, support)
+function [estimated_mode, XI, p, ci95] = sampleStats(samples, support)
 % convert samples into a vector, just in case it's not already
 samples = samples(:);
 
@@ -29,5 +29,10 @@ ci95 = prctile(samples,[5 95]);
 
 %   plot(XI,F)
 %   hline([],estimated_mode)
+
+
+fprintf('paramater estimation of sigma^2 (VARIANCE): mode=%2.3f (%2.3f - %2.3f)\n',...
+	estimated_mode, ci95(1), ci95(2))
+		
 
 return

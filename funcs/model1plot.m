@@ -4,18 +4,10 @@ function model1plot(filename)
 % model1plot('tempModel1run_mcmcCustom')
 % model1plot('tempModel1run_mcmcJAGS')
 
-plot_formatting_setup
-
+% load the parameter estimation results calculated by model1runme.m
 load(['~/Dropbox/tempModelOutputs/' filename])
 
-% temp=cd;
-% try
-% 	cd('~/Dropbox/tempModelOutputs')
-% 	load(filename)
-% 	cd(temp)
-% catch
-% 	
-% end
+
 
 
 switch PARAM_RECOVERY_METHOD
@@ -45,7 +37,7 @@ subplot(1,2,2)
 % plot posterior distribtion
 switch PARAM_RECOVERY_METHOD
 	case{'gridApprox'}
-		area(V,posterior_var,...
+		area(estOpts.V,posterior_var,...
 			'FaceColor', [0.7 0.7 0.7], ...
 			'LineStyle','none')
 		hold on, a=axis; top =a(4); z=0.03;
@@ -91,7 +83,7 @@ switch PARAM_RECOVERY_METHOD
 		nsamples=10^5;
 		fprintf('\nDrawing %d samples from the posterior distribution of internal variance...',...
 			nsamples)
-		var_samples = randsample(V, nsamples, true, posterior_var);
+		var_samples = randsample(estOpts.V, nsamples, true, posterior_var);
 		fprintf('done\n')
 		fprintf('Calculating model predictions in data space for sii...')
 		% predictive distribution
@@ -105,7 +97,7 @@ switch PARAM_RECOVERY_METHOD
 		%clear predk
 		
 	case{'mcmcCustom'}
-		predk=zeros(n_samples,numel(params.sii)); % preallocate
+		predk=zeros(estOpts.n_samples,numel(params.sii)); % preallocate
 		for n=1:numel(samples)
 			predk(n,:) = model1posteriorPrediction(params.T, params.sii, samples(n));
 		end

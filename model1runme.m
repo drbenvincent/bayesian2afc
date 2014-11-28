@@ -4,15 +4,8 @@ function model1runme(PARAM_RECOVERY_METHOD)
 % model1runme('mcmcJAGS')
 
 % Initial setting up
-close all; clc    
-addpath([cd '/funcs'])
-addpath([cd '/funcs/export_fig'])
-addpath([cd '/funcs/ColorBand'])
-addpath([cd '/funcs/latex_fig'])
+setup
 
-plot_formatting_setup
-
-figure(1),clf
 
 DATASET_MODE='load'  % {'load','generate'}
 PARAM_RECOVERY_METHOD
@@ -33,82 +26,55 @@ switch DATASET_MODE
             params.v);
 end
 
+
+
 %% STEP 2: Parameter Recovery via GRID APPROXIMATION
 % Evaluate likelihood over range of variance values. Then obtain posterior
 % by combining with a uniform prior.
 switch PARAM_RECOVERY_METHOD
 	case{'gridApprox'}
-		V=linspace(10^-2, 3, 10^4)'; % range of variance values
-		posterior_var=zeros(size(V)); % preallocate
-		fprintf('Running parameter recovery via grid approximation...')
-		for n=1:numel(V) % Do the grid approximation
-			posterior_var(n) = model1jointPosterior(V(n), params.sioriginal, params.koriginal, params.T);
-		end
-		fprintf(' done\n')
-		% normalise
-		posterior_var = posterior_var ./ sum(posterior_var);
+		% 1. Define estimation options
+		estOpts.V =linspace(10^-2, 3, 10^4)'; % range of variance values
+		
+		% 2. Conduct the inference
+		[posterior_var,vMode,HDI] = m1GridApprox(estOpts,params);
 		
 	case{'mcmcCustom'}
-		initial_variance	= 0.1; % initial guess
-		n_samples			= 100000;
-		proposalstd			= 0.1;
-		pdf					= @model1jointPosterior;
+		% 1. Define estimation options
+		estOpts.initial_variance	= 0.1; % initial guess
+		estOpts.n_samples			= 100000;
+		estOpts.proposalstd			= 0.1;
+		estOpts.pdf					= @model1jointPosterior;
 		
-		[samples] = mhAlgorithm(initial_variance,n_samples,proposalstd,...
-			pdf,...
+		% 2. Conduct the inference
+		[samples] = mhAlgorithm(estOpts,...
 			params.sioriginal, params.koriginal, params.T);
+		
+		% Calc summary stats
+		[MAP, xi, p, CI95] = sampleStats(samples, 'positive');
+	
 		
 	case{'mcmcJAGS'}
 
+		% 1. Define estimation options
+		mcmcparams = define_mcmcparams('model1');
 		starting_var = [0.1 1 10 100];
 		mcmcparams.infer.nchains = numel(starting_var);
 		
-		% Define MCMC parameters
-		mcmcparams = define_mcmcparams('model1');
-		
 		[samples, stats] = model1inferMCMC(params, starting_var, mcmcparams);
+		
+		% Calc summary stats
+		[MAP, xi, p, CI95] = sampleStats(samples.v(:), 'positive');
 end
-
-% Calculate summary stats
-switch PARAM_RECOVERY_METHOD
-	case{'gridApprox'}
-		% Calculate posterior mode, the MAP value
-		[~,index]=max(posterior_var);
-		vMode = V(index);
-		% Calculate 95% HDI
-		[HDI] = HDIofGrid(V,posterior_var, 0.95);
-		
-		fprintf('Posterior over internal variance: mode=%2.3f (%2.3f - %2.3f)\n',...
-			vMode, HDI.lower, HDI.upper)
-		
-		% save the MAP estimate in a file so that model2MCMCse.m can use it
-		cd('output')
-		save('m1MAPestimate.mat', 'vMode')
-		cd('..')
-		
-	case{'mcmcCustom'}
-		[MAP, xi, p, CI95] = mode_of_samples_1D(samples, 'positive');
-		Y = prctile(samples,[5 95]); % Calcaulte 95% CI
-		fprintf('paramater estimation of sigma^2 (VARIANCE): mode=%2.3f (%2.3f - %2.3f)\n',...
-			MAP, Y(1), Y(2))
-		
-	case{'mcmcJAGS'}
-		[MAP, xi, p, CI95] = mode_of_samples_1D(samples.v(:), 'positive');
-		Y = prctile(samples.v(:),[5 95]); % Calcaulte 95% CI
-		fprintf('paramater estimation of sigma^2 (VARIANCE): mode=%2.3f (%2.3f - %2.3f)\n',...
-			MAP, Y(1), Y(2))
-
-end
-
-
 
 
 
 %% SAVE
 switch PARAM_RECOVERY_METHOD
 	case{'gridApprox'}
+		save('output/m1MAPestimate.mat', 'vMode')
 		save(['~/Dropbox/tempModelOutputs/tempModel1run_gridApprox.mat'], '-v7.3')
-		
+
 	case{'mcmcCustom'}
 		save(['~/Dropbox/tempModelOutputs/tempModel1run_mcmcCustom.mat'], '-v7.3')
 		

@@ -5,9 +5,9 @@ function generate_common_data
 % by models 1 and 2 in addition to model 3 which will use the full
 % trial-to-trial data.
 
+clear, clc, %close all, drawnow
 
 %% Double check this is what we want to do
-
 choice = questdlg('Do you REALLY want to proceed? This will overwrite any existing common dataset.', ...
 	'Careful', ...
 	'Yes, create new common dataset','No thank you','No thank you');
@@ -18,18 +18,17 @@ switch choice
 end
 
 
-%% Define parameters
-clear, clc, %close all, drawnow
+%% MODEL PARAMETERS
+
 params.T			= 100;                  % trials per signal level
 params.sioriginal	= logspace(-2,1,10);    % define the signal intensities
-%params.extvariance	= 0;                    % external noise variance
 params.v			= 1;                    % internal noise variance
-params.lr			= 0.01;                         % true lapse rate
-params.b			= 0;
-params.pdist		= [0.5 0.5];
+params.lr			= 0.01;                 % true lapse rate
+params.b			= 0;					% true bias
+params.pdist		= [0.5 0.5];			% true spatial prior 
 
-% define MCMC parameters for running Model 4 to generate data
-mcmcparams.doparallel = 0;
+%% INFERENCE OPTIONS: just for generating the datasets
+mcmcparams.doparallel = 0; 
 mcmcparams.JAGSmodel = 'funcs/model2JAGS.txt';
 
 mcmcparams.generate.nchains = 1;
@@ -67,7 +66,6 @@ save('data/commondata_model2.mat', 'params')
 
 
 %% Export for Model 3
-
 params.si = [params.sioriginal params.sii];
 
 % These models do not use trial level data of location and response, so
@@ -88,9 +86,6 @@ params.k(:,[numel(params.k)+1:numel(params.si)]) = NaN;
 save('data/commondata_model3.mat', 'params')
 
 %% Export for Model 1
-%params.k=params.koriginal;
-%params = rmfield(params,'koriginal');
-
 save('data/commondata_model1.mat', 'params')
 
 %%

@@ -2,18 +2,6 @@ function model2plot
 
 display('Loading model 2 data...')
 load('~/Dropbox/tempModelOutputs/tempModel2run.mat')
-% temp=cd;
-% try
-%     cd('~/Dropbox/tempModelOutputs')
-% 	load tempModel2run.mat
-%     cd(temp)
-% catch
-%     error('FILE tempModel2run.mat NOT FOUND IN ~/output/')
-% end
-
-
-plot_formatting_setup
-
 
 
 %% Plot MCMC chains

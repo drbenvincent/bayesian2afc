@@ -2,10 +2,6 @@ function model1MCMCse(TASK)
 % model1MCMCse('calculate')
 % model1MCMCse('plot')
 
-close all; clc    % First, tidy thigs up
-addpath([cd '/funcs'])
-addpath([cd '/funcs/export_fig'])
-plot_formatting_setup
 
 rows=2;
 cols=1;
@@ -138,6 +134,6 @@ mcmcparams.infer.nchains = numel(starting_var);
 
 %%
 % Calculate mode (the MAP estimate) by kernel density estimation
-mcmc_estimated_mode = mode_of_samples_1D(samples.v(:), 'positive');
+mcmc_estimated_mode = sampleStats(samples.v(:), 'positive');
 
 end
