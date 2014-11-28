@@ -1,12 +1,5 @@
 function model3runme
 
-% set things up
-clear, clc, %close all; drawnow
-addpath([cd '/funcs'])
-addpath([cd '/funcs/export_fig'])
-addpath([cd '/funcs/acf']) % for autocorrelation function
-addpath([cd '/funcs/ColorBand'])
-plot_formatting_setup
 
 %% set some simulation parameters
 % Parameters for grid approximation (parameter estimation)

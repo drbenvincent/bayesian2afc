@@ -69,6 +69,58 @@ end
 
 
 
+%% STEP 3: PREDICTIVE DISTRIBUTION
+% Generate a set of predictions for many signal intensity levels, beyond
+% that which we have data for (sii). Useful for visualising the model's
+% predictions.
+
+
+switch PARAM_RECOVERY_METHOD
+	case{'gridApprox'}
+		% Sample from the posterior. * REQUIRES STATISTICS TOOLBOX *
+		nsamples=10^5;
+		fprintf('\nDrawing %d samples from the posterior distribution of internal variance...',...
+			nsamples)
+		var_samples = randsample(estOpts.V, nsamples, true, posterior_var);
+		fprintf('done\n')
+		fprintf('Calculating model predictions in data space for sii...')
+		% predictive distribution
+		predk=zeros(nsamples,numel(params.sii)); % preallocate
+		for n=1:nsamples
+			predk(n,:) = model1posteriorPrediction(params.T, params.sii, var_samples(n));
+		end
+		fprintf('done\n')
+		% Calculate 95% CI's for each signal level
+		CI = prctile(predk,[5 95]) ./ params.T;
+		%clear predk
+		
+	case{'mcmcCustom'}
+		predk=zeros(estOpts.n_samples,numel(params.sii)); % preallocate
+		for n=1:numel(samples)
+			predk(n,:) = model1posteriorPrediction(params.T, params.sii, samples(n));
+		end
+		
+	case{'mcmcJAGS'}
+		
+		% Generation of the predictive posterior values of K was already
+		% done in Step 2.
+		
+		si = params.sioriginal;
+		sii = params.sii;
+		T = params.T;
+		
+		% JAGS is providing samples of predicted number of correct trials out of T.
+		% Concatenate all the samples from different MCMC chains into one long list
+		% of MCMC samples
+		predk = reshape( samples.predk ,...
+			mcmcparams.infer.nchains*mcmcparams.infer.nsamples,...
+			numel([si sii]));
+		
+		predk = predk(:,numel(si)+1:end);
+		
+end
+
+
 %% SAVE
 switch PARAM_RECOVERY_METHOD
 	case{'gridApprox'}

@@ -1,5 +1,5 @@
 function [posterior, predk] = model1jointPosterior(variance, si, k, T)
-% This function will return the posterior of the joing distribution
+% This function will return the posterior of the joint distribution
 % P(variance, si, k, T).
 % It will do this by summing log probabilities
 
@@ -16,14 +16,6 @@ logp = logp + klogp;
 
 %% convert from log posterior to posterior
 posterior = exp(logp);
-
-
-
-
-
-
-
-
 
 % %% Posterior prediction
 % 
