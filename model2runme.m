@@ -1,10 +1,4 @@
 %% model2runme.m
-%
-% Future updates or big fixes will appear at: 
-% <http://www.inferenceLab.com www.inferenceLab.com>
-% and/or
-% <https://github.com/drbenvincent/bayesian2afc>
-%%
 
 % set things up
 clear, clc, close all; drawnow

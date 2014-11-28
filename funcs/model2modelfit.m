@@ -118,15 +118,4 @@ predictions.notknowingL.AIC = 2*free_params - 2*log( probOfDataGivenParameters )
 
 
 
-
-% %% plot
-% figure(10), clf, boxplot(error,[1:numel(muS)]) %semilogx(muS,residual')
-% xlabel('\mu_S condition'), ylabel('proportion correct, error')
-% hline(0)
-% set(gca,'PlotBoxAspectRatio',[1.5 1 1])
-% title(sprintf('RMSE=%3.8f',fit.RMSE))
-% drawnow
-% export_fig model3errors -pdf -m1
-
-
 return

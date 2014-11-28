@@ -1,8 +1,4 @@
-%% model4infer.m
-% Use MCMC to infer the posterior distribution ...
-% xxx
-%%
-function [samples,stats] = model3infer(knowns, mcmcparams)
+function [samples,stats] = model2infer(knowns, mcmcparams)
 
 try
     % remove fields for which we want to make inferences

@@ -40,4 +40,4 @@ acceptance_rate = accepted / n_samples;
 fprintf('Acceptance rate: %2.1f %%\n',acceptance_rate*100)
 	
 	
-	
+return

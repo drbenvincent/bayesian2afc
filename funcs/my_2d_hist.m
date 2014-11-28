@@ -15,9 +15,6 @@ for cx=1:length(bx)
     
     for cy=1:length(by)
         
-        %XSET= x > bx(cx)-xbinhalfwidth & x < bx(cx)+xbinhalfwidth;
-        %YSET= y > by(cy)-ybinhalfwidth & y < by(cy)+ybinhalfwidth;
-        
         SET = (x > (bx(cx)-xbinhalfwidth) & x < (bx(cx)+xbinhalfwidth))...
             & (y > (by(cy)-ybinhalfwidth) & y < (by(cy)+ybinhalfwidth));
         

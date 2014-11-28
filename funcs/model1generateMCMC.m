@@ -1,10 +1,3 @@
-%% model2generate.m
-% Generate a dataset of number of times correct, out of T trials (per
-% condition) for the stimulus levels (defined in vector muS) with the noise
-% level muN and the specified noise variance.
-%%
-
-
 function [params] = model1generateMCMC(params, mcmcparams)
 
 

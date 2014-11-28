@@ -1,19 +1,3 @@
-%% model1MCMCse.m
-%
-% This is Supplementary Material accompanying the paper:
-%
-% Vincent, B. T. (2014) A introductory tutorial on Bayesian modelling for perception researchers.
-%
-% Future updates or big fixes will appear at:
-% <http://www.inferenceLab.com www.inferenceLab.com>
-% and/or
-% <https://github.com/drbenvincent/bayesian2afc>
-%%
-
-%%
-% Examine variation in MCMC estimates as a function of number of MCMC samples
-
-
 function model1MCMCse(TASK)
 % model1MCMCse('calculate')
 % model1MCMCse('plot')
@@ -66,11 +50,7 @@ switch TASK
 		
 		%% SAVE
 		save(['~/Dropbox/tempModelOutputs/' 'tempModel_MCMCse'], '-v7.3')
-% 		st=cd;
-% 		cd('~/Dropbox/tempModelOutputs')
-% 		save tempModel_MCMCse.mat -v7.3
-% 		cd(st)
-		
+
 	case{'plot'}
 		% load data
 		try

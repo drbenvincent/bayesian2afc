@@ -1,9 +1,3 @@
-%% model2generate.m
-% This function generates a dataset of target locations (L) and internal 
-% sensory observations (x) given the parameters provided, 
-% $P(L,x|params)$
-%%
-
 function [params] = model3generate(params, mcmcparams)
 
 

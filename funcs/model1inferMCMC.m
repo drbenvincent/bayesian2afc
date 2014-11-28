@@ -1,7 +1,3 @@
-%% model2infer.m
-% This function passes invokes JAGS
-%%
-
 function [samples, stats] = model1inferMCMC(knowns, starting_var, mcmcparams)
 
 % Double check we have removed knowledge of the internal variance as this
@@ -39,18 +35,5 @@ fprintf( 'Running JAGS...\n' );
     'rndseed',1); 
 
 fprintf('done\n')
-% %% plot MCMC chains
-% % Visually inspect chains and examine the $\hat{R}$ statistic.
-% MCMCdiagnoticsPlot(samples,stats,{'v'})
-% 
-% temp=cd;
-% try 
-%     latex_fig(12, 6,4)
-%     cd('figs')
-%     export_fig model2_infer_chains -pdf -m1
-%     cd('..')
-% catch
-%     cd(temp)
-% end
 
 return

@@ -10,9 +10,7 @@ function MCMCdiagnoticsPlot(samples,stats,fields)
 %	samples.b
 %	samples.c
 %
-%
-%
-% written by: Benjamin T Vincent
+
 
 nSamplesDisplayLimit=10^4;
 

@@ -1,15 +1,3 @@
-%% model1MCMCconvergence.m
-%
-% This is Supplementary Material accompanying the paper:
-%
-% Vincent, B. T. (2014) A introductory tutorial on Bayesian modelling for perception researchers.
-%
-% Future updates or big fixes will appear at: 
-% <http://www.inferenceLab.com www.inferenceLab.com>
-% and/or
-% <https://github.com/drbenvincent/bayesian2afc>
-%%
-
 % Initial set up
 clear, close all; clc   
 addpath([cd '/funcs'])

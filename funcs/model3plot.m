@@ -13,33 +13,6 @@ end
 
 
 
-% %% MODEL PREDICTIONS in data space
-% % Generate a set of predictions for many signal intensity levels, beyond
-% % that which we have data for (sii). Useful for visualising the model's
-% % predictions.
-% 
-% % Sample from the posterior. * REQUIRES STATISTICS TOOLBOX * 
-% fprintf('Drawing %d samples from the posterior distribution of internal variance...',...
-%     predictive.nSamples)
-% var_samples = randsample(varianceGridVals,predictive.nSamples,true,posterior_var);
-% fprintf('done\n')
-% fprintf('Calculating model predictions in data space for sii...')
-% % predictive distribution
-% predk=zeros(predictive.nSamples,numel(params.sii)); % preallocate
-% for i=1:predictive.nSamples
-% 	fprintf('%d of %d',i,predictive.nSamples)
-%     % --------------------------------------------------
-%     pc = model3nonMCMC(var_samples(i), params.sii, predictive.nSimulatedTrials, dPrior);
-%     % --------------------------------------------------
-%     predk(i,:) = binornd(params.T, pc );
-% end
-% fprintf('done\n')
-% % Calculate 95% CI's for each signal level
-% CI = prctile(predk,[5 95]) ./ params.T;
-% clear predk
-
-
-
 %% Plot results in data space
 % Plot the simulated behaviour data alongside model predictions
 
@@ -121,10 +94,3 @@ cd('figs')
 hgsave('model3')
 export_fig model3 -pdf -m1
 cd('..')
-
-% % save everything to my dropbox folder. These files can be too large to go
-% % on GitHub.
-% st=cd;
-% cd('/Users/benvincent/Dropbox/RESEARCH/PAPERSinprogress/MCMCtutorial/localSavedJobs')
-% save tempModel3run.mat -v7.3
-% cd(st)
