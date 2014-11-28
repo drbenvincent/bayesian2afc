@@ -59,7 +59,7 @@ switch PARAM_RECOVERY_METHOD
 	case{'mcmcJAGS'}
 		
 		
-		load('commondata_model1.mat')
+		%load('data/commondata_model1.mat')
 		
 		
 		starting_var = [0.1 1 10 100];

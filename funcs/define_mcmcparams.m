@@ -28,7 +28,7 @@ end
 switch model
     case{'model1'}
         
-		mcmcparams.JAGSmodel = 'funcs/model1JAGS.txt';
+		mcmcparams.JAGSmodel = 'jagsmodels/model1JAGS.txt';
 		
         % 1) Dataset generation - only used if we are generating new
         % simulated behavioural data, not when we are loading pre-computed
@@ -50,7 +50,7 @@ switch model
 		% NUMBER OF TRIALS TO SIMULATE
 		T = 100;                           % 2000 in paper ???
 		
-		mcmcparams.JAGSmodel = 'funcs/model3JAGS.txt';
+		mcmcparams.JAGSmodel = 'jagsmodels/model3JAGS.txt';
         
         % 1) Dataset generation - always used
         mcmcparams.generate.nchains = 2;    % 2
@@ -68,7 +68,7 @@ switch model
         
         T=varargin{1};
 		
-		mcmcparams.JAGSmodel = 'funcs/model2JAGS.txt';
+		mcmcparams.JAGSmodel = 'jagsmodels/model2JAGS.txt';
         
         % 1) Dataset generation - only used if we are generating new
         % simulated behavioural data, not when we are loading pre-computed
