@@ -52,16 +52,16 @@ for n=1:numel(varianceGridVals)
     % Calculate PC over different si values, for this variance parameter
     % value
     % --------------------------------------------------
-    pc = model3nonMCMC(varianceGridVals(n), params.sioriginal,...
+    pc = model3nonMCMC(varianceGridVals(n), data.sioriginal,...
 		paramest.nSimulatedTrials, dPrior);
     % --------------------------------------------------
     
     % plotting
     figure(2)
-    semilogx(params.sioriginal,pc','k-')
+    semilogx(data.sioriginal,pc','k-')
     hold on
-    semilogx(params.sioriginal,...
-        pcfunc( params.sioriginal, varianceGridVals(n) ),...
+    semilogx(data.sioriginal,...
+        pcfunc( data.sioriginal, varianceGridVals(n) ),...
         'r:')
     
     legend('monte carlo','sdt')
@@ -70,14 +70,14 @@ for n=1:numel(varianceGridVals)
     ylabel('k/T')
     hold on
     % plot data
-    plot(params.sioriginal, params.koriginal./params.T, 'ko')
+    plot(data.sioriginal, data.koriginal./data.T, 'ko')
     hold off
     drawnow
     
 
     
     % Calculate likelihood
-	L = Lk(params.koriginal, params.T, pc' );
+	L = Lk(data.koriginal, data.T, pc' );
     %L =L(L~=0)  %<------ this was causing problems. Kill it.
     likelihood(n) = LkTotal( L );
     
@@ -107,7 +107,7 @@ end
 % 
 % But it's simpler to simply normalise the likelihood...
 
-prior_over_k = 1/params.T;  % discreet uniform prior over k.
+prior_over_k = 1/data.T;  % discreet uniform prior over k.
 prior_over_sigma2 = 1/1000; % continuous uniform prior (range 0-1000) over sigma2
 posterior_var = likelihood .* prior_over_k .* prior_over_sigma2;
 
@@ -143,17 +143,17 @@ var_samples = randsample(varianceGridVals,predictive.nSamples,true,posterior_var
 fprintf('done\n')
 fprintf('Calculating model predictions in data space for sii...')
 % predictive distribution
-predk=zeros(predictive.nSamples,numel(params.sii)); % preallocate
+predk=zeros(predictive.nSamples,numel(data.sii)); % preallocate
 for i=1:predictive.nSamples
 	fprintf('%d of %d',i,predictive.nSamples)
     % --------------------------------------------------
-    pc = model3nonMCMC(var_samples(i), params.sii, predictive.nSimulatedTrials, dPrior);
+    pc = model3nonMCMC(var_samples(i), data.sii, predictive.nSimulatedTrials, dPrior);
     % --------------------------------------------------
-    predk(i,:) = binornd(params.T, pc );
+    predk(i,:) = binornd(data.T, pc );
 end
 fprintf('done\n')
 % Calculate 95% CI's for each signal level
-CI = prctile(predk,[5 95]) ./ params.T;
+CI = prctile(predk,[5 95]) ./ data.T;
 %clear predk
 
 

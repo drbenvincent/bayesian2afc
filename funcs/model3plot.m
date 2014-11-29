@@ -20,12 +20,12 @@ load('~/Dropbox/tempModelOutputs/tempModel3run.mat')
 figure(1),clf
 subplot(1,2,1) 
 % % plot simulated data
-% semilogx(params.sioriginal, params.koriginal ./ params.T,'k.','MarkerSize',24);
+% semilogx(data.sioriginal, data.koriginal ./ data.T,'k.','MarkerSize',24);
 % hold on
 % 
 % % plot model predictions
 % my_shaded_errorbar_zone_UL...
-% 	(params.sii,CI(2,:),CI(1,:),[111 181 227]./255);
+% 	(data.sii,CI(2,:),CI(1,:),[111 181 227]./255);
 % set(gca,'XScale','log')
 
 % ===== TEST =====
@@ -34,11 +34,11 @@ for n=1:size(predk,2)
 	% scale so the max numerical value = 100
 	IM(:,n) =IM(:,n) / (max(IM(:,n))/100);
 end
-imXdata = params.sii;
+imXdata = data.sii;
 imYdata = [0:1:100]/100;
 
-pltXdata = params.sioriginal;
-pltYdata = params.koriginal ./ params.T;
+pltXdata = data.sioriginal;
+pltYdata = data.koriginal ./ data.T;
 
 log_plot_with_background(IM,...
 	imXdata , imYdata,...
@@ -68,7 +68,7 @@ area(varianceGridVals,posterior_var,...
 	'FaceColor', [0.7 0.7 0.7], ...
 	'LineStyle','none')
 axis tight
-hline([],params.v)
+hline([],data.v)
 % plot 95% HDI
 hold on, a=axis; top =a(4); z=0.03;
 plot([HDI.lower HDI.upper],[top*z top*z],'k-');

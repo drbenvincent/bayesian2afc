@@ -12,13 +12,13 @@ addpath([cd '/funcs/export_fig'])
 switch TASK
     case{'calculate'}
         
-        params.si		= logspace(-2,1,10);    % define the signal intensities
-        params.varint	= 1;                    % internal noise variance
-        params.pdist	= [0.5 0.5];
+        data.si		= logspace(-2,1,10);    % define the signal intensities
+        data.varint	= 1;                    % internal noise variance
+        data.pdist	= [0.5 0.5];
         
         % Define MCMC parameters
         mcmcparams		= define_mcmcparams('model3');
-        params.T		= mcmcparams.generate.nsamples; % TRIALS TO SIMULATE
+        data.T		= mcmcparams.generate.nsamples; % TRIALS TO SIMULATE
         %%
         % WARNING: This is a relatively complex model, and simulating more than
         % about 1000 trials per stimulus level will result in quite long
@@ -29,7 +29,7 @@ switch TASK
         % Generate samples of L and x. These samples are generated with a uniform
         % probability of signals occuring in each of N=2 locations.
         
-        [params] = model3generate(params, mcmcparams);
+        [data] = model3generate(data, mcmcparams);
         % <http://www.inferenceLab.com www.inferenceLab.com>
         % and/or
         % <https://github.com/drbenvincent/bayesian2afc>
@@ -49,8 +49,8 @@ switch TASK
         % is unbiased in that it expects signals to occur in each location with
         % equal probability.
         tic
-        params.pdist=[0.5 0.5];
-        [samples,stats, PCunbiased, PCIm1, R, k] = model3infer(params, mcmcparams);
+        data.pdist=[0.5 0.5];
+        [samples,stats, PCunbiased, PCIm1, R, k] = model3infer(data, mcmcparams);
         toc
         
         %% Inferences, for biased observer
@@ -58,8 +58,8 @@ switch TASK
         % is biased, and assumes there is a 75% change of signals occuring in
         % location 1.
         
-        params.pdist=[0.75 0.25];
-        [samples,stats, PCbiased, PCIm2, R, k] = model3infer(params, mcmcparams);
+        data.pdist=[0.75 0.25];
+        [samples,stats, PCbiased, PCIm2, R, k] = model3infer(data, mcmcparams);
         
         
         
@@ -71,11 +71,11 @@ switch TASK
         si = logspace(-2,1,100);
         % unbiased observer
         dPrior=[0.5 0.5];
-        pc_unbiased = model3nonMCMC(params.varint, si,...
+        pc_unbiased = model3nonMCMC(data.varint, si,...
             nSimulatedTrials, dPrior);
         % biased observer
         dPrior=[0.75 0.25];
-        pc_biased = model3nonMCMC(params.varint, si,...
+        pc_biased = model3nonMCMC(data.varint, si,...
             nSimulatedTrials, dPrior);
         
         %% SAVE
@@ -101,10 +101,10 @@ switch TASK
         semilogx(si,pc_biased,'k--')
         
         
-        [h.m1]=semilogx(params.si',PCunbiased,'ko','MarkerSize',8,...
+        [h.m1]=semilogx(data.si',PCunbiased,'ko','MarkerSize',8,...
             'MarkerFaceColor','k');
         hold on
-        [h.m2]=semilogx(params.si',PCbiased,'ks','MarkerSize',8,...
+        [h.m2]=semilogx(data.si',PCbiased,'ks','MarkerSize',8,...
             'MarkerFaceColor','w');
         xlabel('signal intensity, \Delta\mu')
         ylabel('proportion correct')

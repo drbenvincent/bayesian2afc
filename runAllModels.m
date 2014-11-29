@@ -24,6 +24,8 @@ model2plot
 
 %% MODEL 3
 model3runme				% parameter estimation + model prediction
+model3plot
+
 
 % calculate psychometric functions
 model3psychometric('calculate')
