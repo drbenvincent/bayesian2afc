@@ -128,7 +128,7 @@ drawnow
 		set(gca,'TickDir','in')
 		hold on
 		%
-		[MAP, xi, p, CI95] = mode_of_samples_1D(data, supp);
+		[MAP, xi, p, CI95] = sampleStats(data, supp);
 		
 		% plot 95% CI line
 		a=axis; ypos=a(4)*0.05;

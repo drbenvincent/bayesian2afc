@@ -42,7 +42,7 @@ display('Plotting model 2 data...\n')
 figure(2), clf
 % subplot(1,2,1)
 % hold on
-% h.data = semilogx(params.sioriginal',params.pc,'k.','MarkerSize',24);
+% h.data = semilogx(data.sioriginal',data.pc,'k.','MarkerSize',24);
 
 predk = predictions.interp.predk';
 
@@ -54,11 +54,11 @@ for n=1:size(predk,2) % loop over signal intensities
 	% scale so the max numerical value = 1
 	IM(:,n) =IM(:,n) / (max(IM(:,n))/100);
 end
-imXdata = params.sii;
+imXdata = data.sii;
 imYdata = [0:1:100]/100;
 
-pltXdata = params.sioriginal;
-pltYdata = params.koriginal ./ params.T;
+pltXdata = data.sioriginal;
+pltYdata = data.koriginal ./ data.T;
 
 log_plot_with_background(IM,...
 	imXdata , imYdata,...
@@ -78,14 +78,14 @@ log_plot_with_background(IM,...
 % plot 95% CI posterior prediction given that we do have knowledge of the
 % true signal locations in the actual experiment. In a real situation we
 % would indeed know this.
-my_errorbarsUL(params.sioriginal,...
+my_errorbarsUL(data.sioriginal,...
 	predictions.knowingL.upper,...
 	predictions.knowingL.lower,...
 	{'Color','r',...
 	'LineWidth',4})
 
 % my_shaded_errorbar_zone_UL...
-% 	(params.sioriginal,...
+% 	(data.sioriginal,...
 %     predictions.knowingL.upper, predictions.knowingL.lower,...
 % 	([111 181 227]./255).*0.6);
 
@@ -97,7 +97,7 @@ my_errorbarsUL(params.sioriginal,...
 % 
 % % PLOT POSTERIOR PREDICTIVE CHECK
 % my_shaded_errorbar_zone_UL...
-% 	(params.sii, ...
+% 	(data.sii, ...
 %     predictions.interp.upper, predictions.interp.lower,...
 %     [111 181 227]./255);
 
@@ -141,7 +141,7 @@ set(gca,'PlotBoxAspectRatio',[1 1 1])
 % axis tight
 % xlim([0 3])
 % title('\sigma^2')
-% hline([],params.v) % PLOT TRUE VALUE
+% hline([],data.v) % PLOT TRUE VALUE
 % % remove y-axis
 % box off
 % set(gca,'YTick',[],...
@@ -172,7 +172,7 @@ set(gca,'PlotBoxAspectRatio',[1 1 1])
 % axis tight
 % xlim([0 0.1])
 % title('\lambda')
-% hline([],params.lr) % PLOT TRUE VALUE
+% hline([],data.lr) % PLOT TRUE VALUE
 % % remove y-axis
 % box off
 % set(gca,'YTick',[],...
@@ -205,7 +205,7 @@ set(gca,'PlotBoxAspectRatio',[1 1 1])
 % axis tight
 % 
 % title('b')
-% hline([],params.b) % PLOT TRUE VALUE
+% hline([],data.b) % PLOT TRUE VALUE
 % % remove y-axis
 % box off
 % set(gca,'YTick',[],...
@@ -234,10 +234,10 @@ cd('..')
 temp=cd;
 try
 	cd('figs')
-	figure(5)
+	figure(5), clf
 	myDensityMatrix(samples.v(:),samples.lr(:),samples.b(:),...
 		{'\sigma^2','\lambda','b'},...
-		[params.v, params.lr, params.b],...
+		[data.v, data.lr, data.b],...
 		{'positive','positive',[-100 100]})
 	
 	figure(5), hgsave('model2paramMatrix')

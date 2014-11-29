@@ -1,4 +1,4 @@
-function [predictions] = model2modelpredictions2(samples, mcmcparams, params)
+function [predictions] = model2modelpredictions2(samples, mcmcparams, data)
 % Calcualte the model predictions for a much largner number of si values
 % than we have data for. 
 
@@ -14,7 +14,7 @@ function [predictions] = model2modelpredictions2(samples, mcmcparams, params)
 
 
 
-totalSlevels =numel(params.si);
+totalSlevels =numel(data.si);
 
 % collapse across chains
 % Note we are taking samples from "R" that were supplied as missing values
@@ -23,10 +23,10 @@ tempR = samples.postpredR(:,:,:,:);
 predR = reshape( tempR ,...
 	mcmcparams.infer.nchains*mcmcparams.infer.nsamples,...
 	totalSlevels,...
-	params.T);
+	data.T);
 
 % grab out the L and the R for the interpolated si values only
-L = params.L(:,:)';
+L = data.L(:,:)';
 
 
 
@@ -37,9 +37,9 @@ L = params.L(:,:)';
 mcmc_samples = mcmcparams.infer.nchains*mcmcparams.infer.nsamples;
 
 % preallocate
-model_predicted_correct = zeros(params.T, totalSlevels, mcmc_samples);
+model_predicted_correct = zeros(data.T, totalSlevels, mcmc_samples);
 tic
-for t=1:params.T
+for t=1:data.T
 	for sl=1:totalSlevels
 		model_predicted_correct(t,sl,:) = L(t,sl) == predR(:,sl,t) ;
 	end
@@ -57,8 +57,8 @@ toc
 
 
 
-predk = squeeze( sum(model_predicted_correct(:,[1:numel(params.sioriginal)],:),1));
-predpc = squeeze( sum(model_predicted_correct(:,[1:numel(params.sioriginal)],:),1)) ./ params.T;
+predk = squeeze( sum(model_predicted_correct(:,[1:numel(data.sioriginal)],:),1));
+predpc = squeeze( sum(model_predicted_correct(:,[1:numel(data.sioriginal)],:),1)) ./ data.T;
 predictions.knowingL.predk		= predk; 
 predictions.knowingL.predpc		= predpc; 
 predictions.knowingL.mean		= mean(predpc');
@@ -66,8 +66,8 @@ predictions.knowingL.lower		= prctile(predpc',5);
 predictions.knowingL.upper		= prctile(predpc',95);
 clear predpc
 
-predk = squeeze( sum(model_predicted_correct(:,[numel(params.sioriginal)+1:numel(params.sioriginal)*2],:),1));
-predpc = squeeze( sum(model_predicted_correct(:,[numel(params.sioriginal)+1:numel(params.sioriginal)*2],:),1)) ./ params.T;
+predk = squeeze( sum(model_predicted_correct(:,[numel(data.sioriginal)+1:numel(data.sioriginal)*2],:),1));
+predpc = squeeze( sum(model_predicted_correct(:,[numel(data.sioriginal)+1:numel(data.sioriginal)*2],:),1)) ./ data.T;
 predictions.notknowingL.predk	= predk; 
 predictions.notknowingL.predpc	= predpc; 
 predictions.notknowingL.mean	= mean(predpc');
@@ -75,8 +75,8 @@ predictions.notknowingL.lower	= prctile(predpc',5);
 predictions.notknowingL.upper	= prctile(predpc',95);
 clear predpc
 
-predk = squeeze( sum(model_predicted_correct(:,[numel(params.sioriginal)*2+1:end],:),1));
-predpc = squeeze( sum(model_predicted_correct(:,[numel(params.sioriginal)*2+1:end],:),1)) ./ params.T;
+predk = squeeze( sum(model_predicted_correct(:,[numel(data.sioriginal)*2+1:end],:),1));
+predpc = squeeze( sum(model_predicted_correct(:,[numel(data.sioriginal)*2+1:end],:),1)) ./ data.T;
 predictions.interp.predk		= predk;
 predictions.interp.predpc		= predpc; 
 predictions.interp.mean			= mean(predpc');

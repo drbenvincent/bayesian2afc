@@ -1,6 +1,7 @@
 close all; clc    
 addpath([cd '/funcs'])
 addpath([cd '/funcs/export_fig'])
+addpath([cd '/funcs/acf'])
 addpath([cd '/funcs/ColorBand'])
 addpath([cd '/funcs/latex_fig'])
 addpath([cd '/funcs/bensUtils'])

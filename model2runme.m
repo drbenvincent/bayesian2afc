@@ -11,27 +11,27 @@ switch DATAMODE
 		% dataset of locations (L) and responses (R).
 		load('data/commondata_model2.mat')
 		% Define MCMC parameters
-		mcmcparams = define_mcmcparams('model2',params.T);
+		mcmcparams = define_mcmcparams('model2',data.T);
 		
 	case{'generate'}
-		params = define_experiment_params('model2');
+		data = define_experiment_params('model2');
 		% Define MCMC parameters
-		mcmcparams = define_mcmcparams('model2',params.T);
+		mcmcparams = define_mcmcparams('model2',data.T);
 		% Step 1: Generate simulated dataset
-		[params] = model3generate(params, mcmcparams);
+		[data] = model2generate(data, mcmcparams);
 end
 
 
 %% Step 2: Experimenters' inferences
 timerStartOfModel2infer = tic;
-[samples,stats] = model2infer(params, mcmcparams);
+[samples,stats] = model2infer(data, mcmcparams);
 display('inferences done')
 min_sec(toc(timerStartOfModel2infer));
 
  
 %% POSTERIOR PREDICTION for interpolated si values
 display('starting model predictions')
-[predictions] = model2modelpredictions2(samples, mcmcparams, params);
+[predictions] = model2modelpredictions2(samples, mcmcparams, data);
 
 
 %% SAVE
