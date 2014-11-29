@@ -130,7 +130,7 @@ mcmcparams.infer.nchains = numel(starting_var);
 % Now do inference on all the generated data. The function |model2infer.m|
 % gathers the data and sends it to JAGS via _MATJAGS_.
 
-[samples, stats] = m1inferJAGS(params, starting_var, mcmcparams);
+[samples, stats] = m1inferJAGS(data, starting_var, mcmcparams);
 
 %%
 % Calculate mode (the MAP estimate) by kernel density estimation

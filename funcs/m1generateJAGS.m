@@ -1,10 +1,10 @@
-function [params] = m1generateJAGS(params, mcmcparams)
+function [data] = m1generateJAGS(data, mcmcparams)
 
 
 %%
 % Set initial values for each chain
 for n=1:mcmcparams.generate.nchains
-	initial_param(n).k = round( (rand(numel(params.si),1)*10) +1 );
+	initial_param(n).k = round( (rand(numel(data.si),1)*10) +1 );
 end
 
 %% Invoke JAGS via the |matjags| function
@@ -12,7 +12,7 @@ end
 % 'variance' given the parameters defined in the structure 'dataset'
 
 [samples, stats] = matjags( ...
-    params, ...                       
+    data, ...                       
     fullfile(pwd, mcmcparams.JAGSmodel), ...    
     initial_param, ...                          
     'doparallel' , mcmcparams.doparallel, ...      
@@ -28,13 +28,13 @@ end
 	'dic',0); 
 
 % keep data from chain 1, for one sample
-params.k = squeeze( samples.k(1,end,:) )';
+data.k = squeeze( samples.k(1,end,:) )';
 
 % we want to overwrite the generated k values corresponding to the signal
 % intensity levels we are examining for prediction
-params.k(:,[numel(params.sioriginal)+1:end]) = NaN;
+data.k(:,[numel(data.sioriginal)+1:end]) = NaN;
 
-%params.k=knowns.k([1:numel(params.muS)]);
-params.koriginal=params.k([1:numel(params.sioriginal)]);
+%data.k=knowns.k([1:numel(data.muS)]);
+data.koriginal=data.k([1:numel(data.sioriginal)]);
 
 return

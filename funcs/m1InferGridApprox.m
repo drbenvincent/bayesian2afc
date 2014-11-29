@@ -1,11 +1,11 @@
-function [posterior_var,vMode,HDI] = m1InferGridApprox(estOpts,params)
+function [posterior_var,vMode,HDI] = m1InferGridApprox(estOpts,data)
 
 fprintf('Running parameter recovery via grid approximation...')
 posterior_var=zeros(size(estOpts.V)); % preallocate
 % GRID APPROX ---------------------------------------------------
 parfor n=1:numel(estOpts.V) % Do the grid approximation
 	posterior_var(n) = m1jointPosterior(estOpts.V(n),...
-		params.sioriginal, params.koriginal, params.T);
+		data.sioriginal, data.koriginal, data.T);
 end
 % ---------------------------------------------------------------
 fprintf(' done\n')

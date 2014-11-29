@@ -30,11 +30,11 @@ switch DATASET_MODE
         
     case{'generate'}
         % define known variables
-        params = define_experiment_params('model1');
+        data = define_experiment_params('model1');
         
         % GENERATE SIMULATED DATA: sample from P(k|T,si,variance)
-        params.k = m1posteriorPrediction(params.T, params.sioriginal,...
-            params.v);
+        data.k = m1posteriorPrediction(data.T, data.sioriginal,...
+            data.v);
 end
 
 
@@ -48,7 +48,7 @@ switch PARAM_RECOVERY_METHOD
 		estOpts.V = linspace(10^-2, 3, 10^4)'; % range of variance values
 		
 		% 2. Conduct the inference
-		[posterior_var,vMode,HDI] = m1InferGridApprox(estOpts,params);
+		[posterior_var,vMode,HDI] = m1InferGridApprox(estOpts,data);
 		
 	case{'mcmcCustom'}
 		% 1. Define estimation options
@@ -59,7 +59,7 @@ switch PARAM_RECOVERY_METHOD
 		
 		% 2. Conduct the inference
 		[samples] = mhAlgorithm(estOpts,...
-			params.sioriginal, params.koriginal, params.T);
+			data.sioriginal, data.koriginal, data.T);
 		
 		% Calc summary stats
 		[MAP, xi, p, CI95] = sampleStats(samples, 'positive');
@@ -71,7 +71,7 @@ switch PARAM_RECOVERY_METHOD
 		starting_var = [0.1 1 10 100];
 		mcmcparams.infer.nchains = numel(starting_var);
 		
-		[samples, stats] = m1inferJAGS(params, starting_var, mcmcparams);
+		[samples, stats] = m1inferJAGS(data, starting_var, mcmcparams);
 		
 		% Calc summary stats
 		[MAP, xi, p, CI95] = sampleStats(samples.v(:), 'positive');
@@ -92,18 +92,18 @@ switch PARAM_RECOVERY_METHOD
 		var_samples = randsample(estOpts.V, nsamples, true, posterior_var);
 		
 		% predictive distribution
-		predk=zeros(nsamples,numel(params.sii)); % preallocate
+		predk=zeros(nsamples,numel(data.sii)); % preallocate
 		for n=1:nsamples
-			predk(n,:) = m1posteriorPrediction(params.T, params.sii, var_samples(n));
+			predk(n,:) = m1posteriorPrediction(data.T, data.sii, var_samples(n));
 		end
 
 		% Calculate 95% CI's for each signal level
-		CI = prctile(predk,[5 95]) ./ params.T;
+		CI = prctile(predk,[5 95]) ./ data.T;
 		
 	case{'mcmcCustom'}
-		predk=zeros(estOpts.n_samples,numel(params.sii)); % preallocate
+		predk=zeros(estOpts.n_samples,numel(data.sii)); % preallocate
 		for n=1:numel(samples)
-			predk(n,:) = m1posteriorPrediction(params.T, params.sii, samples(n));
+			predk(n,:) = m1posteriorPrediction(data.T, data.sii, samples(n));
 		end
 		
 	case{'mcmcJAGS'}
@@ -116,9 +116,9 @@ switch PARAM_RECOVERY_METHOD
 		% of MCMC samples
 		predk = reshape( samples.predk ,...
 			mcmcparams.infer.nchains*mcmcparams.infer.nsamples,...
-			numel([params.sioriginal params.sii]));
+			numel([data.sioriginal data.sii]));
 		
-		predk = predk(:,numel(params.sioriginal)+1:end);
+		predk = predk(:,numel(data.sioriginal)+1:end);
 
 end
 

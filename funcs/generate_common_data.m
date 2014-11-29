@@ -20,12 +20,12 @@ end
 
 %% MODEL PARAMETERS
 
-params.T			= 100;                  % trials per signal level
-params.sioriginal	= logspace(-2,1,10);    % define the signal intensities
-params.v			= 1;                    % internal noise variance
-params.lr			= 0.01;                 % true lapse rate
-params.b			= 0;					% true bias
-params.pdist		= [0.5 0.5];			% true spatial prior 
+data.T			= 100;                  % trials per signal level
+data.sioriginal	= logspace(-2,1,10);    % define the signal intensities
+data.v			= 1;                    % internal noise variance
+data.lr			= 0.01;                 % true lapse rate
+data.b			= 0;					% true bias
+data.pdist		= [0.5 0.5];			% true spatial prior 
 
 %% INFERENCE OPTIONS: just for generating the datasets
 mcmcparams.doparallel = 0; 
@@ -33,7 +33,7 @@ mcmcparams.JAGSmodel = 'funcs/model2JAGS.txt';
 
 mcmcparams.generate.nchains = 1;
 mcmcparams.generate.nburnin = 500;
-mcmcparams.generate.nsamples = params.T;
+mcmcparams.generate.nsamples = data.T;
 
 mcmcparams.infer.nchains = 2;
 mcmcparams.infer.nburnin = 500;
@@ -50,43 +50,43 @@ mcmcparams.infer.nsamples = round(5000/mcmcparams.infer.nchains);  % 50000 in th
 % now to generate simulated 2AFC trial data (L) for these additional si
 % values we wish to examine.
 ni = 41; % number of si levels to examine
-params.sii = logspace(-2,1,ni);
+data.sii = logspace(-2,1,ni);
 
-%params.si = [params.sioriginal params.sii];
-params.si = [params.sioriginal params.sioriginal params.sii];
+%data.si = [data.sioriginal data.sii];
+data.si = [data.sioriginal data.sioriginal data.sii];
 
 %% Step 1: Generate simulated dataset
 
 % model 2 requires [si si sii]
-[params] = model2generate(params, mcmcparams);
+[data] = model2generate(data, mcmcparams);
 
 %% Export for Model 2
-params.koriginal = params.k;
-save('data/commondata_model2.mat', 'params')
+data.koriginal = data.k;
+save('data/commondata_model2.mat', 'data')
 
 
 %% Export for Model 3
-params.si = [params.sioriginal params.sii];
+data.si = [data.sioriginal data.sii];
 
 % These models do not use trial level data of location and response, so
 % this will be removed to keep things tidy
-params = rmfield(params,'L');
-params = rmfield(params,'R');
-params = rmfield(params,'lr');
-params = rmfield(params,'b');
-params = rmfield(params,'pdist');
-params = rmfield(params,'pc');
+data = rmfield(data,'L');
+data = rmfield(data,'R');
+data = rmfield(data,'lr');
+data = rmfield(data,'b');
+data = rmfield(data,'pdist');
+data = rmfield(data,'pc');
 
 % Add unknowns which we want to make inferenes over for the interpolated
 % signal intensity values
-params.koriginal = params.k;
-params.k(:,[numel(params.k)+1:numel(params.si)]) = NaN;
-%params.pc(:,[numel(params.sioriginal)+1:numel(params.si)]) = NaN;
+data.koriginal = data.k;
+data.k(:,[numel(data.k)+1:numel(data.si)]) = NaN;
+%data.pc(:,[numel(data.sioriginal)+1:numel(data.si)]) = NaN;
 
-save('data/commondata_model3.mat', 'params')
+save('data/commondata_model3.mat', 'data')
 
 %% Export for Model 1
-save('data/commondata_model1.mat', 'params')
+save('data/commondata_model1.mat', 'data')
 
 %%
 fprintf('Generated and saved common data\n')

@@ -54,7 +54,7 @@ switch PARAM_RECOVERY_METHOD
 end
 
 axis tight
-hline([],params.v)
+hline([],data.v)
 
 % format graph
 xlabel('inferred \sigma^2')
@@ -78,11 +78,11 @@ for n=1:size(predk,2)
 	% scale so the max numerical value = 100
 	IM(:,n) =IM(:,n) / (max(IM(:,n))/100);
 end
-imXdata = params.sii;
+imXdata = data.sii;
 imYdata = [0:1:100]/100;
 
-pltXdata = params.sioriginal;
-pltYdata = params.koriginal ./ params.T;
+pltXdata = data.sioriginal;
+pltYdata = data.koriginal ./ data.T;
 
 log_plot_with_background(IM,...
 	imXdata , imYdata,...

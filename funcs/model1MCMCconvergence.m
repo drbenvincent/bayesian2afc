@@ -16,11 +16,11 @@ switch DATAMODE
 	
 	case{'generate'}
 		% Define experiment parameters
-		params = define_experiment_params('model1');
+		data = define_experiment_params('model1');
 		
 		% Generate simulated number of correct trials for a rang of signal
 		% levels.
-		params = m1generateJAGS(params, mcmcparams);
+		data = m1generateJAGS(data, mcmcparams);
 		
 end
 
@@ -43,7 +43,7 @@ mcmcparams.infer.nsamples=1000;
 % Now do inference on all the generated data. The function |model2infer.m|
 % gathers the data and sends it to JAGS via _MATJAGS_.
 
-[samples, stats] = m1inferJAGS(params, starting_var, mcmcparams);
+[samples, stats] = m1inferJAGS(data, starting_var, mcmcparams);
 
 %% JAGS seems to cut off the initial parameters
 % So to demonstrate the point, we'll add them back on
