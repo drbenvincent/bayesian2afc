@@ -12,8 +12,7 @@ for n=2:estOpts.n_samples
 	old_sample = samples(n-1);
 	old_posterior = estOpts.pdf(old_sample, si, k, T);
 	
-	% suggest a new sample, but variance can't be less than or equal to
-	% zero
+	% suggest a new sample, but variance can't be less than or equal to zero
 	new_sample=-inf;
 	while le(new_sample,0)
 		new_sample = normrnd(old_sample,estOpts.proposalstd);
@@ -32,6 +31,10 @@ for n=2:estOpts.n_samples
 		else
 			samples(n) = old_sample;
 		end
+	end
+
+	if rem(n,5000)==0
+		fprintf('%3.1f%%\n',(n/estOpts.n_samples)*100)
 	end
 end
 
