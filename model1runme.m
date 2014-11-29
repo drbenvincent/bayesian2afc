@@ -1,13 +1,27 @@
 function model1runme(PARAM_RECOVERY_METHOD)
+% This code implements Model 1 in 3 differnet ways. 
+%
 % model1runme('gridApprox')
 % model1runme('mcmcCustom')
 % model1runme('mcmcJAGS')
+%
+% For each method, the same basic steps are undertaken:
+% Step 1: load dataset, OR generate new data
+% Step 2: Conduct parameter recovery
+% Step 3: Calculate the model's predictions. What is the models predictive
+% distribution over the data, given the parmeter distributions inferred
+% given the data in step 1.
+%
+% Grid Approximation, and the custom MCMC implementation both use the
+% function m1jointPosterior.m for the parameter estimation, to evaluate
+% the joint probability.
+% They also both use m1posteriorPrediction.m in order to calculate the
+% posterior distribution
 
 setup
 
 DATASET_MODE='load'  % {'load','generate'}
 PARAM_RECOVERY_METHOD
-%PARAM_RECOVERY_METHOD = 'mcmcCustom' %{'gridApprox', 'mcmcJAGS', 'mcmcCustom'}
 
 %% STEP 1: SIMULATE DATASET. Either load or create a new dataset
 switch DATASET_MODE
@@ -18,9 +32,8 @@ switch DATASET_MODE
         % define known variables
         params = define_experiment_params('model1');
         
-        % GENERATE SIMULATED DATA
-		% Sample from the distribution P(k|T,si,variance)
-        params.k = model1posteriorPrediction(params.T, params.sioriginal,...
+        % GENERATE SIMULATED DATA: sample from P(k|T,si,variance)
+        params.k = m1posteriorPrediction(params.T, params.sioriginal,...
             params.v);
 end
 
@@ -35,14 +48,14 @@ switch PARAM_RECOVERY_METHOD
 		estOpts.V = linspace(10^-2, 3, 10^4)'; % range of variance values
 		
 		% 2. Conduct the inference
-		[posterior_var,vMode,HDI] = m1GridApprox(estOpts,params);
+		[posterior_var,vMode,HDI] = m1InferGridApprox(estOpts,params);
 		
 	case{'mcmcCustom'}
 		% 1. Define estimation options
 		estOpts.initial_variance	= 0.1; % initial guess
 		estOpts.n_samples			= 100000;
 		estOpts.proposalstd			= 0.1;
-		estOpts.pdf					= @model1jointPosterior;
+		estOpts.pdf					= @m1jointPosterior;
 		
 		% 2. Conduct the inference
 		[samples] = mhAlgorithm(estOpts,...
@@ -58,7 +71,7 @@ switch PARAM_RECOVERY_METHOD
 		starting_var = [0.1 1 10 100];
 		mcmcparams.infer.nchains = numel(starting_var);
 		
-		[samples, stats] = model1inferMCMC(params, starting_var, mcmcparams);
+		[samples, stats] = m1inferJAGS(params, starting_var, mcmcparams);
 		
 		% Calc summary stats
 		[MAP, xi, p, CI95] = sampleStats(samples.v(:), 'positive');
@@ -71,20 +84,17 @@ end
 % that which we have data for (sii). Useful for visualising the model's
 % predictions.
 
-
 switch PARAM_RECOVERY_METHOD
 	case{'gridApprox'}
-		% Sample from the posterior. * REQUIRES STATISTICS TOOLBOX *
-		nsamples=10^5;
-		
 		% Drawing MANY samples from the posterior distribution of internal
-		% variance
+		% variance * REQUIRES STATISTICS TOOLBOX *
+		nsamples=10^5;
 		var_samples = randsample(estOpts.V, nsamples, true, posterior_var);
 		
 		% predictive distribution
 		predk=zeros(nsamples,numel(params.sii)); % preallocate
 		for n=1:nsamples
-			predk(n,:) = model1posteriorPrediction(params.T, params.sii, var_samples(n));
+			predk(n,:) = m1posteriorPrediction(params.T, params.sii, var_samples(n));
 		end
 
 		% Calculate 95% CI's for each signal level
@@ -93,7 +103,7 @@ switch PARAM_RECOVERY_METHOD
 	case{'mcmcCustom'}
 		predk=zeros(estOpts.n_samples,numel(params.sii)); % preallocate
 		for n=1:numel(samples)
-			predk(n,:) = model1posteriorPrediction(params.T, params.sii, samples(n));
+			predk(n,:) = m1posteriorPrediction(params.T, params.sii, samples(n));
 		end
 		
 	case{'mcmcJAGS'}
@@ -128,23 +138,3 @@ end
 
 
 return
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

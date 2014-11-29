@@ -1,4 +1,5 @@
 function model1plot(filename)
+% This function plots the results (parameter recovery and posterior prediction) that was conducted by model1runme.
 %
 % model1plot('tempModel1run_gridApprox')
 % model1plot('tempModel1run_mcmcCustom')
@@ -6,7 +7,6 @@ function model1plot(filename)
 
 % load the parameter estimation results calculated by model1runme.m
 load(['~/Dropbox/tempModelOutputs/' filename])
-
 
 switch PARAM_RECOVERY_METHOD
     case{'mcmcJAGS'}
@@ -64,7 +64,7 @@ set(gca, 'PlotBoxAspectRatio',[1 1 1],...
 	'yticklabel',{},...
 	'YTick',[],...
 	'xlim', [0 3])
-title('b.')
+%title('b.')
 
 
 

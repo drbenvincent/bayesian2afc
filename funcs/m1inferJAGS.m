@@ -1,4 +1,4 @@
-function [samples, stats] = model1inferMCMC(knowns, starting_var, mcmcparams)
+function [samples, stats] = m1inferJAGS(knowns, starting_var, mcmcparams)
 
 % Double check we have removed knowledge of the internal variance as this
 % is what we are trying to estimate

@@ -52,39 +52,35 @@ switch model
 		% 1) Dataset generation - only used if we are generating new
 		% simulated behavioural data, not when we are loading pre-computed
 		% data.
-		mcmcparams.generate.nchains = 1;
-		mcmcparams.generate.nburnin = 500;
-		mcmcparams.generate.nsamples = T;
+		mcmcparams.generate.nchains		= 1;
+		mcmcparams.generate.nburnin		= 500;
+		mcmcparams.generate.nsamples	= T;
 		
 		% 2) Parameter recovery
 		mcmcparams.infer.nchains = numOfCores;	% 4
 		mcmcparams.infer.nburnin = 1000;        % 1000
 		% TOTAL SAMPLES:
-		% 10^6 takes ~4-5 hours ??
+		% 10^6 takes ~4-5 hours 
 		% 10^5 takes ~25 mins on my quadcore iMac
 		total_samples    = 10^4;                % 10^5 in paper
 		mcmcparams.infer.nsamples = round(total_samples/mcmcparams.infer.nchains);
 		
 	case{'model3'}
 		
-		%T=varargin{1};
-		
-		% NUMBER OF TRIALS TO SIMULATE
 		T = 100;                          
 		
 		mcmcparams.JAGSmodel = 'jagsmodels/model3JAGS.txt';
 		
-		% 1) Dataset generation - always used
-		mcmcparams.generate.nchains = 2;    % 2
-		mcmcparams.generate.nburnin = 500;  % 500
-		mcmcparams.generate.nsamples = T;   % number of trials to simulate
+		% 1) Dataset generation 
+		mcmcparams.generate.nchains		= 2;    % 2
+		mcmcparams.generate.nburnin		= 500;	% 500
+		mcmcparams.generate.nsamples	= T;	% number of trials to simulate
 		
 		% 2) Parameter recovery
-		mcmcparams.infer.nchains = numOfCores;       % 2
-		mcmcparams.infer.nburnin = 500;    % 1000
-		%mcmcparams.infer.nsamples = round(4000/mcmcparams.infer.nchains);
-		total_samples = 10^3;               % 10^4
-		mcmcparams.infer.nsamples = round(total_samples/mcmcparams.infer.nchains);
+		mcmcparams.infer.nchains	= numOfCores;
+		mcmcparams.infer.nburnin	= 1000;	
+		total_samples				= 10^3;		% 10^4
+		mcmcparams.infer.nsamples	= round(total_samples/mcmcparams.infer.nchains);
 		
 end
 

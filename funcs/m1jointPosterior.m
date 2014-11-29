@@ -1,4 +1,4 @@
-function [posterior, predk] = model1jointPosterior(variance, si, k, T)
+function [posterior, predk] = m1jointPosterior(variance, si, k, T)
 % This function will return the posterior of the joint distribution
 % P(variance, si, k, T).
 % It will do this by summing log probabilities

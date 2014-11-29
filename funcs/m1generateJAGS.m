@@ -1,4 +1,4 @@
-function [params] = model1generateMCMC(params, mcmcparams)
+function [params] = m1generateJAGS(params, mcmcparams)
 
 
 %%

@@ -1,7 +1,6 @@
 
 setup
 
-
 %% MODEL 1
 model1runme('gridApprox')
 model1plot('tempModel1run_gridApprox')

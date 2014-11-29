@@ -17,24 +17,14 @@ f=f./sum(f);
 h = stairs(xx, f, 'k-');
 % --------------------------------------------
 
-% zoom in on both axes
-axis tight
-% scale the y-axis
-ylim([0 max(f)])
 
-% format axes
+axis tight
+ylim([0 max(f)])
 box off
 
-% remove YTicks, and make the axis white (i.e. invisible)
-% set(gca,'YTick',[],...
-% 	'YColor',[1 1 1])
 % keep y axis, but remove labels
 set(gca,'yticklabel',{},...
 	'YTick',[])
-
-
-
-
 
 % Plot 95% CI
 hold on
