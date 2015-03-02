@@ -1,15 +1,13 @@
 # A tutorial on Bayesian models of perception
 
-**PLEASE RESPECT THAT THIS IS PRE-RELEASE CODE, ASSOCIATED WITH A PAPER THAT IS UNDER REVIEW. Citation details and a link to the paper will be provided if the manuscript is accepted for publication**
+This repository contains Matlab code associated with the paper:
+
+> Vincent (2015) [A tutorial on Bayesian models of Perception](), Journal of Mathematical Psychology. do:10.1016/j.jmp.2015.02.001
+
+If you find the paper and/or code useful, the best way to thank me is by citing me :) 
 
 **This code is published under the MIT licence, see LICENSE.txt.**
 
-## About this respository
-This repository contains Matlab files that produced many of the figures in my paper:
-
-- Vincent, B. T. (submitted) A tutorial on Bayesian models of perception. [LINK TO PUBLISHER'S SITE HERE]()
-
-The paper and other Supplementary Material is available here: [PROVIDE URL HERE]()
 
 ## If... then...
 * **You can't get the code to work**, then feel free to email and I'll try my best to respond to clarify things. 
