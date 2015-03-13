@@ -2,7 +2,7 @@
 
 This repository contains Matlab code associated with the paper:
 
-> Vincent (2015) [A tutorial on Bayesian models of Perception](), Journal of Mathematical Psychology. do:10.1016/j.jmp.2015.02.001
+> Vincent (2015) [A tutorial on Bayesian models of Perception](http://www.sciencedirect.com/science/article/pii/S0022249615000061), Journal of Mathematical Psychology. do:10.1016/j.jmp.2015.02.001
 
 If you find the paper and/or code useful, the best way to thank me is by citing me :) 
 
