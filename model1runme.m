@@ -28,6 +28,12 @@ switch DATASET_MODE
     case{'load'}
         load('data/commondata_model1.mat')
         
+        % The fields of data, for commondata_model1.mat are:
+        % - sioriginal = stimulus intensities (there are 10)
+        % - koriginal = counts, 1, 2, 3, ? T (there are 10, corresponding to the responses for each stimulus intensity)
+        % - T = trials = 100
+        % - the other variables (sii, si, k) also correspond to counts and stimulus intensities, but now we are interpolating more values in between the actual 10
+        
     case{'generate'}
         % define known variables
         data = define_experiment_params('model1');
@@ -39,7 +45,7 @@ end
 
 
 
-%% STEP 2: Parameter Recovery via GRID APPROXIMATION
+%% STEP 2: Parameter Recovery
 % Evaluate likelihood over range of variance values. Then obtain posterior
 % by combining with a uniform prior.
 switch PARAM_RECOVERY_METHOD
